@@ -1,0 +1,19 @@
+{
+    "name": "javiern/php-homework",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {"Javiern\\": "src/"}
+    },
+    "require": {
+        "symfony/http-kernel": "^3.1",
+        "symfony/routing": "^3.1",
+        "symfony/dependency-injection": "^3.1"
+    },
+    "require-dev": {
+        "codegyre/robo": "*",
+        "codeception/codeception": "*"
+    }
+
+}

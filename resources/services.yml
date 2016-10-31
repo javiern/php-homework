@@ -1,0 +1,45 @@
+parameters:
+
+services:
+  event-dispatcher:
+    class: Symfony\Component\EventDispatcher\EventDispatcher
+    calls:
+      - [ addSubscriber, [@router-listener] ]
+  controller-resolver:
+    class: Javiern\Controller\ControllerResolver
+    arguments: [ @service_container ]
+  request-stack:
+    class: Symfony\Component\HttpFoundation\RequestStack
+  argument-resolver:
+    class: Symfony\Component\HttpKernel\Controller\ArgumentResolver
+
+  http-kernel:
+    class: Symfony\Component\HttpKernel\HttpKernel
+    arguments:
+      - @event-dispatcher
+      - @controller-resolver
+      - @request-stack
+      - @argument-resolver
+
+  router-locator:
+    class: Symfony\Component\Config\FileLocator
+    arguments:
+      - %kernel.resources_dir%
+  router-yaml-loader:
+    class: Symfony\Component\Routing\Loader\YamlFileLoader
+    arguments:
+      - @router-locator
+  router-request-context:
+    class: Symfony\Component\Routing\RequestContext
+  router:
+    class: Symfony\Component\Routing\Router
+    arguments:
+      - @router-yaml-loader
+      - routes.yml
+      - cache_dir: %kernel.cache_dir%
+      - @router-request-context
+  router-listener:
+    class: Symfony\Component\HttpKernel\EventListener\RouterListener
+    arguments:
+      - @router
+      - @request-stack
