@@ -25,6 +25,30 @@ class UserProfilerValidationServiceTest extends \Codeception\Test\Unit
         $this->assertSame($validator, $service->getValidator());
     }
 
+    public function validateEditParameterProvider()
+    {
+        return [
+            [['id'=> 1, 'name' => 'a', 'address' => 'b'], ['id'=> 1, 'name' => 'aedit', 'address' => 'bedit'], []],
+            [['id'=> 1, 'name' => 'a', 'address' => 'b'], ['id'=> 3, 'name' => 'aedit', 'address' => 'bedit'], ['id']],
+            [[],[],['id']]
+        ];
+    }
+    /**
+     * @dataProvider validateEditParameterProvider
+     */
+    public function testValidateEdit($original, $modified, $expectedFieldWithErrors) {
+        $validatorStub = $this->createMock(\Symfony\Component\Validator\Validator\RecursiveValidator::class);
+        $validatorStub->expects($this->any())->method('validate')->withConsecutive(
+            [array_key_exists('name', $modified) ? $modified['name'] : null],
+            [array_key_exists('address', $modified) ? $modified['address'] : null]
+        );
+
+        $service = new \Javiern\Services\UserProfileValidationService($validatorStub);
+        $result = $service->validateEdit($original, $modified);
+
+        $this->assertEquals($expectedFieldWithErrors, array_keys($result));
+    }
+
 
     public function validateParameterProvider()
     {

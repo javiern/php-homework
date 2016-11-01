@@ -57,7 +57,7 @@ class UserProfileValidationService
             $original['id'] == $new['id']) {
             $results = $this->validate($new);
         } else {
-            $results['id'][] = 'UserProfile id en content does not match requested';
+            $results['id'][] = 'UserProfile id in content does not match requested';
         }
 
         return $results;
