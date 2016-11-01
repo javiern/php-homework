@@ -1,8 +1,6 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
-new Javiern\Controller\Homework();
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -12,6 +10,10 @@ $isDebug = true;
 
 $file = __DIR__ .'/../var/cache/container.php';
 $containerConfigCache = new \Symfony\Component\Config\ConfigCache($file, $isDebug);
+if($isDebug) {
+    define('C3_CODECOVERAGE_ERROR_LOG_FILE', __DIR__.'/../var/logs/c3_error.log'); //Optional (if not set the default c3 output dir will be used)
+    include __DIR__.'/../c3.php';
+}
 
 if (!$containerConfigCache->isFresh()) {
     //container initialization

@@ -1,13 +1,31 @@
 parameters:
+  db.connection:
+    url: sqlite://%kernel.resources_dir%/db.sqlite
+    driver: pdo_sqlite
+    path: %kernel.resources_dir%/db.sqlite
 
 services:
+
+  db-config:
+    class: Doctrine\DBAL\Configuration
+
+  db:
+    class: Doctrine\DBAL\DriverManager
+    factory: ['Doctrine\DBAL\DriverManager', getConnection]
+    arguments: [%db.connection%, "@db-config"]
+
   event-dispatcher:
     class: Symfony\Component\EventDispatcher\EventDispatcher
     calls:
-      - [ addSubscriber, [@router-listener] ]
+      - [ addSubscriber, ["@router-listener"] ]
+      - [ addListener, [kernel.exception, ["@exception-listener", onKernelException]] ]
+
+  exception-listener:
+    class: Javiern\EventListener\ExceptionListener
+
   controller-resolver:
     class: Javiern\Controller\ControllerResolver
-    arguments: [ @service_container ]
+    arguments: [ "@service_container" ]
   request-stack:
     class: Symfony\Component\HttpFoundation\RequestStack
   argument-resolver:
@@ -16,10 +34,10 @@ services:
   http-kernel:
     class: Symfony\Component\HttpKernel\HttpKernel
     arguments:
-      - @event-dispatcher
-      - @controller-resolver
-      - @request-stack
-      - @argument-resolver
+      - "@event-dispatcher"
+      - "@controller-resolver"
+      - "@request-stack"
+      - "@argument-resolver"
 
   router-locator:
     class: Symfony\Component\Config\FileLocator
@@ -28,18 +46,32 @@ services:
   router-yaml-loader:
     class: Symfony\Component\Routing\Loader\YamlFileLoader
     arguments:
-      - @router-locator
+      - "@router-locator"
   router-request-context:
     class: Symfony\Component\Routing\RequestContext
   router:
     class: Symfony\Component\Routing\Router
     arguments:
-      - @router-yaml-loader
+      - "@router-yaml-loader"
       - routes.yml
       - cache_dir: %kernel.cache_dir%
-      - @router-request-context
+      - "@router-request-context"
   router-listener:
     class: Symfony\Component\HttpKernel\EventListener\RouterListener
     arguments:
-      - @router
-      - @request-stack
+      - "@router"
+      - "@request-stack"
+
+  user-profile-dao:
+    class: Javiern\DAO\UserProfile
+    arguments:
+      -  "@db"
+
+  validator:
+      class: Symfony\Component\Validator\Validation
+      factory: ['Symfony\Component\Validator\Validation', createValidator]
+
+  user-profile-validator:
+    class: Javiern\Services\UserProfileValidationService
+    arguments:
+      - "@validator"

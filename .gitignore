@@ -18,5 +18,6 @@
 
 # Composer PHAR
 /composer.phar
-
 /.idea
+/codecept
+/resources/db.sqlite

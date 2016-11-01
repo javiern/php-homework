@@ -1,6 +1,7 @@
 <?php
 namespace Javiern\Controller;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver as BaseControllerResolver;
@@ -20,6 +21,7 @@ class ControllerResolver extends BaseControllerResolver
      */
     protected function instantiateController($class)
     {
+
         if ($this->container->has($class)) {
             return $this->container->get($class);
         }

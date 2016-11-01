@@ -17,4 +17,15 @@ class ContainerAwareController implements ContainerAwareInterface
     {
         return $this->container->getParameter($name);
     }
+
+    /**
+     * @return null|\Symfony\Component\Routing\RouterInterface
+     */
+    public function getRouter()
+    {
+        if($this->container->has('router')) {
+            return $this->container->get('router');
+        }
+        return null;
+    }
 }

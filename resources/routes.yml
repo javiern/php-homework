@@ -1,3 +1,19 @@
-homepage:
-    path:     /
-    defaults: { _controller: 'Javiern\Controller\Homework::homepage' }
+get_profile:
+    path:     /user/{id}
+    methods:  [GET]
+    defaults: { _controller: 'Javiern\Controller\UserProfile::getProfile' }
+
+edit_profile:
+    path:     /user/{id}
+    methods:  [POST]
+    defaults: { _controller: 'Javiern\Controller\UserProfile::edit' }
+
+create_profile:
+    path:     /user
+    methods:  [POST]
+    defaults: { _controller: 'Javiern\Controller\UserProfile::createProfile' }
+
+delete_profile:
+    path:     /user/{id}
+    methods:  [DELETE]
+    defaults: { _controller: 'Javiern\Controller\UserProfile::remove' }
