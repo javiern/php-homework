@@ -1,4 +1,5 @@
 <?php
+
 namespace Javiern\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -7,14 +8,13 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ExceptionListener
 {
-
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         // You get the exception object from the received event
         $exception = $event->getException();
         $message = json_encode([
             'message' => $exception->getMessage(),
-            'code'    => $exception->getCode()
+            'code' => $exception->getCode(),
         ]);
 
         // Customize your response object to display the exception details

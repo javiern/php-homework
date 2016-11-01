@@ -1,4 +1,5 @@
 <?php
+
 namespace Javiern\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -6,8 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 class UserProfile extends ContainerAwareController
 {
@@ -16,11 +15,11 @@ class UserProfile extends ContainerAwareController
         /** @var \Javiern\DAO\UserProfile $dao */
         $dao = $this->get('user-profile-dao');
 
-        if (false !== $profile = $dao->getUserProfile($id))
+        if (false !== $profile = $dao->getUserProfile($id)) {
             return new JsonResponse($profile);
-        else
-            throw new NotFoundHttpException("User was not found", null, 1000);
-
+        } else {
+            throw new NotFoundHttpException('User was not found', null, 1000);
+        }
     }
 
     public function remove(Request $request, $id)
@@ -30,9 +29,10 @@ class UserProfile extends ContainerAwareController
 
         if (false !== $profile = $dao->getUserProfile($id)) {
             $dao->removeUserProfile($id);
-            return new JsonResponse(['msg' => "Operation success"]);
+
+            return new JsonResponse(['msg' => 'Operation success']);
         } else {
-            throw new NotFoundHttpException("User was not found", null, 1000);
+            throw new NotFoundHttpException('User was not found', null, 1000);
         }
     }
 
@@ -42,10 +42,9 @@ class UserProfile extends ContainerAwareController
         $dao = $this->get('user-profile-dao');
 
         if (false !== $old = $dao->getUserProfile($id)) {
-
             $new = @json_decode($request->getContent(), true);
-            if(json_last_error()) {
-                throw new BadRequestHttpException("Malformed JSON input", null, 1001);
+            if (json_last_error()) {
+                throw new BadRequestHttpException('Malformed JSON input', null, 1001);
             }
 
             /** @var \Javiern\Services\UserProfileValidationService $validator */
@@ -60,15 +59,14 @@ class UserProfile extends ContainerAwareController
                 $router = $this->getRouter();
 
                 return new JsonResponse([
-                    'msg' => "Operation success",
-                    'profile_id' => $id
+                    'msg' => 'Operation success',
+                    'profile_id' => $id,
                 ], 200);
-
             } else {
                 return new JsonResponse($errors, 400);
             }
         } else {
-            throw new NotFoundHttpException("User was not found", null, 1000);
+            throw new NotFoundHttpException('User was not found', null, 1000);
         }
     }
 
@@ -80,8 +78,8 @@ class UserProfile extends ContainerAwareController
     public function createProfile(Request $request)
     {
         $data = @json_decode($request->getContent(), true);
-        if(json_last_error()) {
-            throw new BadRequestHttpException("Malformed JSON input", null, 1001);
+        if (json_last_error()) {
+            throw new BadRequestHttpException('Malformed JSON input', null, 1001);
         }
 
         /** @var \Javiern\Services\UserProfileValidationService $validator */
@@ -96,12 +94,11 @@ class UserProfile extends ContainerAwareController
             $router = $this->getRouter();
 
             return new JsonResponse([
-                    'msg' => "Operation success",
-                    'profile_id' => $id
+                    'msg' => 'Operation success',
+                    'profile_id' => $id,
             ], 201, [
-                'Location' => $router->generate('get_profile', ['id' => $id], RouterInterface::ABSOLUTE_URL)
+                'Location' => $router->generate('get_profile', ['id' => $id], RouterInterface::ABSOLUTE_URL),
             ]);
-
         } else {
             return new JsonResponse($errors, 400);
         }

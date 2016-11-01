@@ -1,4 +1,5 @@
 <?php
+
 namespace Javiern\Controller;
 
 use Psr\Log\LoggerInterface;
@@ -21,7 +22,6 @@ class ControllerResolver extends BaseControllerResolver
      */
     protected function instantiateController($class)
     {
-
         if ($this->container->has($class)) {
             return $this->container->get($class);
         }

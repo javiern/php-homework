@@ -1,9 +1,9 @@
 <?php
+
 namespace Javiern\Services;
 
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 class UserProfileValidationService
 {
@@ -11,6 +11,7 @@ class UserProfileValidationService
 
     /**
      * UserProfileValidationService constructor.
+     *
      * @param ValidatorInterface $validator
      */
     public function __construct(ValidatorInterface $validator)
@@ -38,7 +39,7 @@ class UserProfileValidationService
 
         $errors = [];
         foreach ($results as $key => $violations) {
-            if(count($violations) !== 0) {
+            if (count($violations) !== 0) {
                 foreach ($violations as $violation) {
                     $errors[$key][] = $violation->getMessage();
                 }
@@ -51,14 +52,12 @@ class UserProfileValidationService
     public function validateEdit($original, $new)
     {
         $results = [];
-        if(
-            array_key_exists('id', $original) &&
+        if (array_key_exists('id', $original) &&
             array_key_exists('id', $new) &&
-            $original['id'] == $new['id']
-        ) {
+            $original['id'] == $new['id']) {
             $results = $this->validate($new);
         } else {
-            $results['id'][] = "UserProfile id en content does not match requested";
+            $results['id'][] = 'UserProfile id en content does not match requested';
         }
 
         return $results;
@@ -72,9 +71,9 @@ class UserProfileValidationService
                 new Assert\NotBlank(),
                 new Assert\NotNull(),
                 new Assert\Length([
-                    'min' =>   2,
-                    'max' => 100
-                ])
+                    'min' => 2,
+                    'max' => 100,
+                ]),
             ]
         );
     }
@@ -86,9 +85,9 @@ class UserProfileValidationService
             [
                 new Assert\NotBlank(),
                 new Assert\Length([
-                    'min' =>   5,
-                    'max' => 4000
-                ])
+                    'min' => 5,
+                    'max' => 4000,
+                ]),
             ]
         );
     }

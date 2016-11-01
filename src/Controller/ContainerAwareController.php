@@ -1,4 +1,5 @@
 <?php
+
 namespace Javiern\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -23,9 +24,10 @@ class ContainerAwareController implements ContainerAwareInterface
      */
     public function getRouter()
     {
-        if($this->container->has('router')) {
+        if ($this->container->has('router')) {
             return $this->container->get('router');
         }
+
         return null;
     }
 }
