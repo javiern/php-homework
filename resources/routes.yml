@@ -17,3 +17,8 @@ delete_profile:
     path:     /user/{id}
     methods:  [DELETE]
     defaults: { _controller: 'Javiern\Controller\UserProfile::remove' }
+
+add_picture:
+    path:     /user/{id}/picture
+    methods:  [POST]
+    defaults: { _controller: 'Javiern\Controller\UserProfile::addPicture' }

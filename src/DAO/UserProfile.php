@@ -57,4 +57,17 @@ class UserProfile extends BaseDAO
             ['id' => $id]
         );
     }
+
+    public function savePictureUrl($id, $imageUrl, $baseUri = 'https://images01.olx-st.com/')
+    {
+        return $this->getDb()->update(
+            'user_profile',
+            [
+                'picture' => $baseUri.$imageUrl,
+            ],
+            [
+                'id' => $id,
+            ]
+        );
+    }
 }

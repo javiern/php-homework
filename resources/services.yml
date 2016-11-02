@@ -75,3 +75,9 @@ services:
     class: Javiern\Services\UserProfileValidationService
     arguments:
       - "@validator"
+
+  olx-cdn-api:
+    class: GuzzleHttp\Client
+    arguments:
+      - base_uri: https://api.olx.com/v1.0/
+      - timeout: 120
