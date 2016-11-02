@@ -11,7 +11,8 @@
         "symfony/routing": "^3.1",
         "symfony/dependency-injection": "^3.1",
         "symfony/validator": "^3.1",
-        "doctrine/dbal": "v2.5.4"
+        "doctrine/dbal": "v2.5.4",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "codeception/codeception": "2.2.6",

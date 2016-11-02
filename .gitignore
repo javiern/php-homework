@@ -21,3 +21,5 @@
 /.idea
 /codecept
 /resources/db.sqlite
+
+/c3.php
