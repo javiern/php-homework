@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    image: php:5.6
+    expose:
+      - "8000"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/opt/php-homework
+    command: [ 'php', '-d', 'date.timezone=America/Argentina/Buenos_Aires', '-S', '0.0.0.0:8080', '/opt/php-homework/web/index.php' ]
+
