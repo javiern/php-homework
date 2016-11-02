@@ -109,6 +109,17 @@ the reports will be on tests/_output directory
 vendor/bin/codecept run --coverage --coverage-html
 ```
 
+## Code style
+
+i choosed to use PSR2 code style for this project
+
+## things left undone
+
+- some more testing
+- comments en code (there is none)
+- add logging
+- some refactor (the upload method es specially big)
+
 well, thats it! 
 
 I hope you like it.
