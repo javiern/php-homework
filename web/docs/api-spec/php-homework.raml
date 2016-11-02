@@ -1,0 +1,147 @@
+#%RAML 1.0
+title: php-homework API
+description: |
+  Este documento describe los endpoints de la api rest para accesar permisos de usuario
+  Permite crear perfiles, consultar perfiles por id, editar los perfiles, y borrar los perfiles
+version: 1.0.0
+baseUri: /
+types:
+    profile:
+        type: object
+        properties:
+            id:
+                type: integer
+                displayName: Profile id
+            name:
+                type: string
+                displayName: Name
+                description: Registered name of the user
+            picture?:
+                type: string
+                displayName: Picture
+                description: its the url of the profile picture on olx CDN
+            address:
+                type: string
+                displayName: address
+                description: its a text field
+    status:
+        type: object
+        properties:
+            msg:
+                type: string
+                displayName: Message
+                description: A simple message showing the result of the request
+            profile_id?:
+                type: integer
+                displayName: Profile id affected by the request
+            code?:
+                type: integer
+                displayName: Code
+                description: On error terminated request, this holds an error identifier
+/user:
+    post:
+        description: Creates a user profile
+        responses:
+            201:
+                body:
+                    application/json:
+                        type: status
+                        example: |
+                            {
+                                "msg": "Operation success",
+                                "profile_id": 1
+                            }
+            400:
+                body:
+                    application/json:
+                        example: |
+                            {
+                                'field_name': ['some error msg', 'some other error msg']
+                                'other_field_name': ['some error msg', 'some other error msg']
+                            }
+    /{id}:
+        get:
+            description: Gets an user profile by its ID
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: profile
+                            example: |
+                                {
+                                    "id":1,
+                                    "name":"Javier Neyra",
+                                    "address":"some address"
+                                }
+        post:
+            description: Edits an user profile
+            body:
+                application/json:
+                    type: profile
+                    example: |
+                        {
+                            "id":1,
+                            "name":"Javier Neyra",
+                            "address":"some address"
+                        }
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: status
+                            example: |
+                                {
+                                    "msg": "Operation success",
+                                    "profile_id": 1
+                                }
+                404:
+                    body:
+                        application/json:
+                            type: status
+                            example: |
+                                {
+                                    "msg": "User was not found",
+                                    "profile_id": 1000
+                                }
+                400:
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                    'field_name': ['some error msg', 'some other error msg']
+                                    'other_field_name': ['some error msg', 'some other error msg']
+                                }
+        /picture:
+            post:
+                description: Upload the profile picture
+                body:
+                    image/jpeg:
+                    image/jpg:
+                responses:
+                    200:
+                        body:
+                            application/json:
+                                type: status
+                                example: |
+                                    {
+                                        "msg": "Operation success",
+                                        "profile_id": 1
+                                    }
+                    404:
+                        body:
+                            application/json:
+                                type: status
+                                example: |
+                                    {
+                                        "msg": "User was not found",
+                                        "profile_id": 1000
+                                    }
+                    400:
+                        body:
+                            application/json:
+                                type: status
+                                example: |
+                                    {
+                                        "msg": "User was not found",
+                                        "profile_id": 1000
+                                    }
