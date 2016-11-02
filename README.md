@@ -13,6 +13,7 @@ and inside the RAML spec but, roughly, the are:
 - GET /user/[id]: get the specified profile
 - POST /user/[id]: edit the specified profile
 - POST /user/[id]/picture: upload a picture to @letgo provided CDN
+- DELETE /user/[id] delete de user
 
 ## instalation
 

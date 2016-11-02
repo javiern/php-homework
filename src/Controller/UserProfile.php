@@ -72,6 +72,7 @@ class UserProfile extends ContainerAwareController
 
     public function addPicture(Request $request)
     {
+
     }
 
     //not requested methods,

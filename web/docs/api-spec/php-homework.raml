@@ -101,7 +101,7 @@ types:
                             example: |
                                 {
                                     "msg": "User was not found",
-                                    "profile_id": 1000
+                                    "code": 1000
                                 }
                 400:
                     body:
@@ -110,6 +110,26 @@ types:
                                 {
                                     'field_name': ['some error msg', 'some other error msg']
                                     'other_field_name': ['some error msg', 'some other error msg']
+                                }
+        delete:
+            description: Deletes an user profile by its ID
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: status
+                            example: |
+                                {
+                                    "msg": "Operation success"
+                                }
+                404:
+                    body:
+                        application/json:
+                            type: status
+                            example: |
+                                {
+                                    "msg": "User was not found",
+                                    "code": 1000
                                 }
         /picture:
             post:
